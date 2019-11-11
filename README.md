@@ -1,21 +1,32 @@
-# vue-lbsmap
+# 引入高德地图 API
 
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+```HTML
+<!-- 根目录 index.html -->
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=youkey"></script>
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+```JavaScript
+// webpack.base.conf
+module.exports = {
+  externals: {
+    'AMap': 'AMap'
+  }
+}
+```
+
+```JavaScript
+// 组件内使用
+import AMap from 'AMap'
+
+initMap () {
+  let map = new AMap.Map('container', {
+    zoom: 11, // 级别
+    center: [116.397428, 39.90923], // 中心点坐标
+    viewMode: '3D' // 使用3D视图
+  })
+  AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function () {
+    map.addControl(new AMap.ToolBar())
+    map.addControl(new AMap.Scale())
+  })
+}
+```
